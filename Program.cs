@@ -128,19 +128,20 @@ while(userMoney > 0)
 
 //Result = “RTF4YYUP3E3UU”
 
-//So basically the program will replace a letter if it appeared more than 2 times continuously, the replacement is done by keeping one copy of this letter then writing down the number this letter appeared consecutively.
+//So basically the program will replace a letter if it appeared more than 2 times continuously, the replacement is done by keeping one copy of this letter
+//then writing down the number this letter appeared consecutively.
 
 //Write a function to compress a string and return the result
 
 //Write a function to decompress a string and return the original one.
 
-string input = "RTFFFFYYUPPPEEEUU";
+string compressed = "RTFFFFYYUPPPEEEUU";
 StringBuilder result = new StringBuilder();
 int count = 1;
-char currentChar = input[0];
-for(int i = 0; i < input.Length; i++)
+char currentChar = compressed[0];
+for(int i = 0; i < compressed.Length; i++)
 {
-    if (input[i] == currentChar) { 
+    if (compressed[i] == currentChar) { 
         count++; 
     } else
     {
@@ -148,6 +149,23 @@ for(int i = 0; i < input.Length; i++)
         {
             result.Append(currentChar);
             result.Append(count);
-        } 
+        } else
+        {
+            result.Append(currentChar);
+        }
+    currentChar = compressed[i];
+    count = 1;
     }
 }
+if (count >= 2)
+{
+    result.Append(currentChar);
+    result.Append(count);
+}
+else
+{
+    result.Append(currentChar);
+}
+
+
+Console.WriteLine(result.ToString());
