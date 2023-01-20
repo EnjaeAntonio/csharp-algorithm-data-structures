@@ -166,27 +166,11 @@ if (count >= 2)
 else
 {
     result.Append(currentChar);
-}
-
-
-StringBuilder decompressed = new StringBuilder();
-currentChar = result[0];
+}                               
 
 Console.WriteLine($"Compressed string: {result.ToString()}");
 
-for (int i = 0; i < result.Length; i++)
-{
-    if (char.IsNumber(compressed[i]))
-    {
-        int newCount = Int32.Parse(result[i].ToString());
-        for (int j = 0; j < newCount; j++)
-        {
-            decompressed.Append(currentChar);
-        }
-    } else
-    {
-        currentChar = result[i];
-        decompressed.Append(currentChar);
-    }
-}
+StringBuilder decompressed = new StringBuilder();
+currentChar = compressed[0];
+
 Console.WriteLine($"Decompressed string: {decompressed.ToString()}");
