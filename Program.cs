@@ -175,7 +175,7 @@ else
 
 Console.WriteLine($"Compressed string: {result.ToString()}");
 
-/*** TIME COMPLEXITY WOULD BE O(n). The string compressed represents n as the length ***/
+/*** TIME COMPLEXITY WOULD BE O(n) ***/
 
 string decompressed = "T3GL2G3";
 StringBuilder decompressedResult = new StringBuilder();
