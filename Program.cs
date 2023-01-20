@@ -1,4 +1,6 @@
 ﻿/********* Question1: **********/
+using System.Text;
+
 Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
         { 1, 15 },
         { 2, 10 },
@@ -12,21 +14,23 @@ Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
 Dictionary<string, double> itemInv = new Dictionary<string, double> {
     {"CHIPS", 3 },
     {"CHOCOLATE", 2 },
-    {"WATER", 1.50}
+    {"WATER", 1 }
 };
 
 
 // Ask user for money and initialize user's change
-Console.WriteLine("ADD FUNDS: ");
+Console.WriteLine("PLEASE ENTER FUNDS (Min: $1): ");
 double userMoney = double.Parse(Console.ReadLine());
-while(userMoney <= 1)
+while(userMoney < 1)
 {
-    Console.WriteLine("FUNDS INSUFFICIENT");
-}
+    Console.WriteLine("!! MINIMUM AMOUNT IS * $1 * PLEASE ENTER A NEW AMOUNT !!");
 
+    userMoney= double.Parse(Console.ReadLine());
+}   
 double userChange = 0;
 while(userMoney > 0)
 {
+
     // Ask for item name
     Console.WriteLine("Enter which item you would like :)");
     Console.WriteLine("Type 'List' to view our options, 'Done' to finish your transaction, or 'Cancel' to cancel your purchase!");
@@ -39,6 +43,9 @@ while(userMoney > 0)
     }
     else if(userItem.ToUpper() == "LIST")
     {
+        Console.WriteLine();
+        Console.WriteLine("Available Options: ");
+        Console.WriteLine();
         foreach(KeyValuePair<string, double> item in itemInv)
         {
             Console.WriteLine($"* {item.Key}: ${item.Value} *");
@@ -79,7 +86,8 @@ while(userMoney > 0)
             }
         foreach(KeyValuePair<int, int> coin in userChangeCoins)
         {
-            Console.WriteLine($"Returning ${coin.Key} : {coin.Value} piece(s)");
+            Console.WriteLine("Vending...");
+            Console.WriteLine($"WITHDRAWING {coin.Value} ${coin.Key} bill(s)");
         }
         break;
     }
@@ -91,17 +99,18 @@ while(userMoney > 0)
     }
     else if (userMoney < itemInv[userItem])
     {
-        Console.WriteLine("* INSUFFICIENT FUNDS *, please enter a different item!");
+        Console.WriteLine("!! INSUFFICIENT FUNDS !! PLEASE TYPE 'LIST' TO CHECK WHAT YOU CAN AFFORD");
         Console.WriteLine();
         continue;
     }
     
     else
     {
+        Console.WriteLine();
         Console.WriteLine($"Now vending * {userItem} *");
         userChange = userMoney - itemInv[userItem];
         userMoney = userChange;
-        Console.WriteLine($"Your remaining change is {userChange}");
+        Console.WriteLine($"Your remaining change is now * ${userChange} *");
         Console.WriteLine();
     }
 }
@@ -123,3 +132,6 @@ while(userMoney > 0)
 //Write a function to compress a string and return the result
 
 //Write a function to decompress a string and return the original one.
+
+StringBuilder result = new StringBuilder();
+int count = 0;
