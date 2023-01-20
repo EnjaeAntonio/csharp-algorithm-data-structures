@@ -22,26 +22,27 @@
 //If the item name is not found in the machine, the machine should prompt for a different input, but should store the money that the
 //user initially input; it should not ask for a new amount of money.
 //If the item costs more than what the user has input for money, it should also prompt the user for a selection that the user can afford.
-//If the user selects an item that is valid, and they have entered enough money to buy, the program should output that it has vended the item by name,
+//If the user selects an item that is valid, and they have entered enough money to buy, the program should output
+//that it has vended the item by name,
 //and how many coins it returns for change. It should return the fewest number of coins possible.
 //If the machine does not have sufficient change to return to the user, it should not return any coins, and the entire operation should be canceled
 //and returned to the beginning.
 //If the user ever types "CANCEL", the entire transaction should end.
-//Example:
+    //Example:
 
-//The user entered $25 and wants to buy a $2 item, so the machine should return the following:
+    //The user entered $25 and wants to buy a $2 item, so the machine should return the following:
 
-//$20 : 1 piece 
+    //$20 : 1 piece 
 
-//$2 : 1 piece
+    //$2 : 1 piece
 
-//$1 : 1 piece
+    //$1 : 1 piece
 
-//If the machine is out of a certain coin, it should not return it.
+    //If the machine is out of a certain coin, it should not return it.
 
-//The machine always returns the minimum amount of possible coins.
-//For example, if the machine must return $7 in change, it should return one $5 coin and one $2 coin. If $5 coins are not available,
-//it would return three $2 coins and one $1 coin. 
+    //The machine always returns the minimum amount of possible coins.
+    //For example, if the machine must return $7 in change, it should return one $5 coin and one $2 coin. If $5 coins are not available,
+    //it would return three $2 coins and one $1 coin. 
 
 // Coin Denominations
 Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
@@ -60,7 +61,6 @@ Dictionary<string, double> itemInv = new Dictionary<string, double> {
     {"WATER", 1.50}
 };
 
-Dictionary<double, int> userChangeCoins = new Dictionary<double, int>();
 
 // Ask user for money and initialize user's change
 Console.WriteLine("Please enter the amount of money you have:");
@@ -87,29 +87,27 @@ while(userMoney > 0)
     }
     else if (userItem.ToUpper() == "DONE")
     {
-        foreach (KeyValuePair<double, int> change in userChangeCoins)
-        {
-            // Making sure the user has enough change
-            while (userChange <= 1)
+        userChange = userMoney;
+        Dictionary<int, int> userChangeCoins = new Dictionary<int, int>();
+            foreach (KeyValuePair<int, int> coin in coinDenominations)
             {
-                if (!userChangeCoins.ContainsKey(change.Key))
+                int coinCount = 0;
+                while (coin.Value > 0 && userChange >= coin.Key)
                 {
-                    userChangeCoins.Add(change.Key, change.Value);
-                    {
-                        userChange -= change.Key;
-                        coinDenominations[change.Value]--;
-                    }
+                    userChange -= coin.Key;
+                    coinCount++;
+                    coinDenominations[coin.Key]--;
                 }
-                if (userChange != 0)
+                if(coinCount > 0)
                 {
-                    Console.WriteLine("Sorry the vending machine has insufficient funds");
-                }
-                else
-                {
-                    Console.WriteLine($"${change.Key} {change.Value}");
+                    userChangeCoins.Add(coin.Key, coin.Value);
                 }
             }
+        foreach(KeyValuePair<int, int> coin in userChangeCoins)
+        {
+            Console.WriteLine($"Returning ${coin.Value} : {coin.Key} piece(s)");
         }
+        break;
     }
     else if (!itemInv.ContainsKey(userItem))
     {
@@ -130,8 +128,6 @@ while(userMoney > 0)
         userMoney = userChange;
         Console.WriteLine($"Your remaining change is {userChange}");
     }
-
- 
 }
 
 
