@@ -40,7 +40,8 @@
 //If the machine is out of a certain coin, it should not return it.
 
 //The machine always returns the minimum amount of possible coins.
-//For example, if the machine must return $7 in change, it should return one $5 coin and one $2 coin. If $5 coins are not available, it would return three $2 coins and one $1 coin. 
+//For example, if the machine must return $7 in change, it should return one $5 coin and one $2 coin. If $5 coins are not available,
+//it would return three $2 coins and one $1 coin. 
 
 // Coin Denominations
 Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
@@ -59,16 +60,17 @@ Dictionary<string, double> itemInv = new Dictionary<string, double> {
     {"WATER", 1.50}
 };
 
-// Ask user for money
+Dictionary<double, int> userChangeCoins = new Dictionary<double, int>();
+
+// Ask user for money and initialize user's change
 Console.WriteLine("Please enter the amount of money you have:");
 double userMoney = double.Parse(Console.ReadLine());
-
 double userChange = 0;
 while(userMoney > 0)
 {
     // Ask for item name
     Console.WriteLine("Enter which item you would like");
-    Console.WriteLine("Type 'List' to view our options or 'Cancel' to cancel your purchase");
+    Console.WriteLine("Type 'List' to view our options, 'Done' to finish your transaction, or 'Cancel' to cancel your purchase! :)");
     string userItem = Console.ReadLine().ToUpper();
 
     if (userItem.ToUpper() == "CANCEL")
@@ -80,7 +82,33 @@ while(userMoney > 0)
     {
         foreach(KeyValuePair<string, double> item in itemInv)
         {
-            Console.WriteLine($"Item: {item.Key} Cost: {item.Value}");
+            Console.WriteLine($"Item: {item.Key}, Cost: ${item.Value}");
+        }
+    }
+    else if (userItem.ToUpper() == "DONE")
+    {
+        foreach (KeyValuePair<double, int> change in userChangeCoins)
+        {
+            // Making sure the user has enough change
+            while (userChange <= 1)
+            {
+                if (!userChangeCoins.ContainsKey(change.Key))
+                {
+                    userChangeCoins.Add(change.Key, change.Value);
+                    {
+                        userChange -= change.Key;
+                        coinDenominations[change.Value]--;
+                    }
+                }
+                if (userChange != 0)
+                {
+                    Console.WriteLine("Sorry the vending machine has insufficient funds");
+                }
+                else
+                {
+                    Console.WriteLine($"${change.Key} {change.Value}");
+                }
+            }
         }
     }
     else if (!itemInv.ContainsKey(userItem))
@@ -94,6 +122,7 @@ while(userMoney > 0)
         Console.WriteLine("Insufficient funds, please enter a different item!");
         continue;
     }
+    
     else
     {
         Console.WriteLine($"Now vending {userItem}");
@@ -101,6 +130,8 @@ while(userMoney > 0)
         userMoney = userChange;
         Console.WriteLine($"Your remaining change is {userChange}");
     }
+
+ 
 }
 
 
