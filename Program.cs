@@ -54,42 +54,53 @@ Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
 // Item prices
 
 Dictionary<string, double> itemInv = new Dictionary<string, double> {
-    {"A", 3 },
-    {"B", 2 },
-    {"C", 1.50}
+    {"CHIPS", 3 },
+    {"CHOCOLATE", 2 },
+    {"WATER", 1.50}
 };
 
-bool vendingOn = true;
+// Ask user for money
+Console.WriteLine("Please enter the amount of money you have:");
 double userMoney = double.Parse(Console.ReadLine());
-while(vendingOn)
-{
-    // Ask user for money
-    Console.WriteLine("Please enter the amount of money you have:");
 
+double userChange = 0;
+while(userMoney > 0)
+{
     // Ask for item name
-    Console.WriteLine("Enter which item you would like or type 'CANCEL' to cancel your purchase!");
-    string userItem = Console.ReadLine();
+    Console.WriteLine("Enter which item you would like");
+    Console.WriteLine("Type 'List' to view our options or 'Cancel' to cancel your purchase");
+    string userItem = Console.ReadLine().ToUpper();
 
     if (userItem.ToUpper() == "CANCEL")
     {
-        Console.WriteLine("SHUT DOWN");
+        Console.WriteLine("SHUTTING DOWN");
         break;
-    } else if (!itemInv.ContainsKey(userItem))
+    }
+    else if(userItem.ToUpper() == "LIST")
+    {
+        foreach(KeyValuePair<string, double> item in itemInv)
+        {
+            Console.WriteLine($"Item: {item.Key} Cost: {item.Value}");
+        }
+    }
+    else if (!itemInv.ContainsKey(userItem))
     {
         Console.WriteLine("Item is invalid please try again");
         Console.WriteLine("Enter which item you would like or type 'CANCEL' to cancel your purchase!");
-        userItem = Console.ReadLine();
-    } else if (userMoney < itemInv[userItem])
+        userItem = Console.ReadLine().ToUpper();
+    }
+    else if (userMoney < itemInv[userItem])
     {
         Console.WriteLine("Insufficient funds, please enter a different item!");
         continue;
-    } else
+    }
+    else
     {
         Console.WriteLine($"Now vending {userItem}");
-        double userChange = userMoney - itemInv[userItem];
+        userChange = userMoney - itemInv[userItem];
+        userMoney = userChange;
         Console.WriteLine($"Your remaining change is {userChange}");
     }
-
 }
 
 
