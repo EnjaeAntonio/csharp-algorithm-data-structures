@@ -1,13 +1,13 @@
 ﻿/********* Question1: **********/
-using System.Security;
 using System.Text;
 
+
 Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
-        { 1, 15 },
-        { 2, 10 },
-        { 5, 5 },
-        { 10, 3 },
-        { 20, 2 }
+        {1, 20},
+        {2, 10},
+        {5, 15},
+        {10, 5},
+        {20, 2}
 };
 
 // Item prices
@@ -20,11 +20,11 @@ Dictionary<string, double> itemInv = new Dictionary<string, double> {
 
 
 // Ask user for money and initialize user's change
-Console.WriteLine("PLEASE ENTER FUNDS (Min: $1): ");
+Console.WriteLine("PLEASE ENTER FUNDS (Min: $1 - Max: 205): ");
 double userMoney = double.Parse(Console.ReadLine());
 while(userMoney < 1)
 {
-    Console.WriteLine("!! MINIMUM AMOUNT IS * $1 * PLEASE ENTER A NEW AMOUNT !!");
+    Console.WriteLine("!! MIN-MAX = $1 & $205 : PLEASE ENTER A NEW AMOUNT !!");
 
     userMoney= double.Parse(Console.ReadLine());
 }   
@@ -44,6 +44,7 @@ while(userMoney > 0)
     }
     else if(userItem.ToUpper() == "LIST")
     {
+        // Displaying the list 
         Console.WriteLine();
         Console.WriteLine("Available Options: ");
         Console.WriteLine();
@@ -56,6 +57,15 @@ while(userMoney > 0)
     }
     else if (userItem.ToUpper() == "DONE")
     {
+        foreach(KeyValuePair<int, int> item in coinDenominations)
+        {
+            if(userChange / item.Key > item.Value)
+            {
+                Console.WriteLine("Sorry we dont have enough change to give back");
+                break;
+            }
+        }
+        // Ending the output and also displaying how much change the user is getting back as minimal as possible
         userChange = userMoney;
         Dictionary<int, int> userChangeCoins = new Dictionary<int, int>();
         List<KeyValuePair<int, int>> coinList = coinDenominations.ToList();
@@ -73,33 +83,39 @@ while(userMoney > 0)
         }
         foreach (KeyValuePair<int, int> coin in coinList)
             {
+            // Declaring a coin counter
                 int coinCount = 0;
                 while (coin.Value > 0 && userChange >= coin.Key)
                 {
+                // Making sure the user gets the smalest amount of money back
                     userChange -= coin.Key;
                     coinCount++;
                     coinDenominations[coin.Key] = coinDenominations[coin.Key] - coinCount;
                 }
                 if(coinCount > 0)
                 {
+                // Adding to userChangeCoin
                     userChangeCoins.Add(coin.Key, coinCount);
                 }
             }
+        Console.WriteLine();
+        Console.WriteLine("Vending...");
         foreach(KeyValuePair<int, int> coin in userChangeCoins)
         {
-            Console.WriteLine("Vending...");
             Console.WriteLine($"WITHDRAWING {coin.Value} ${coin.Key} bill(s)");
         }
         break;
     }
     else if (!itemInv.ContainsKey(userItem))
     {
+        // Validiation for error input
         Console.WriteLine("Item is invalid please try again");
         Console.WriteLine("Enter which item you would like or type 'CANCEL' to cancel your purchase!");
         userItem = Console.ReadLine().ToUpper();
     }
     else if (userMoney < itemInv[userItem])
     {
+        // Validation if funds are insufficient
         Console.WriteLine("!! INSUFFICIENT FUNDS !! PLEASE TYPE 'LIST' TO CHECK WHAT YOU CAN AFFORD");
         Console.WriteLine();
         continue;
@@ -107,6 +123,7 @@ while(userMoney > 0)
     
     else
     {
+        // Feedback for when an item is purchased
         Console.WriteLine();
         Console.WriteLine($"Now vending * {userItem} *");
         userChange = userMoney - itemInv[userItem];
@@ -118,23 +135,7 @@ while(userMoney > 0)
 
 
 /******* Question 2: ********/
-//We want to create a simple file compression algorithm that works with strings, those strings are uppercase letters only.
-
-//To compress a string, the program will count the consecutive similar letters and replace them with a number.
-
-//Example:
-
-//String = “RTFFFFYYUPPPEEEUU”
-
-//Result = “RTF4YYUP3E3UU”
-
-//So basically the program will replace a letter if it appeared more than 2 times continuously, the replacement is done by keeping one copy of this letter
-//then writing down the number this letter appeared consecutively.
-
-//Write a function to compress a string and return the result
-
-//Write a function to decompress a string and return the original one.
-
+Console.WriteLine();
 string compressed = "RTFFFFYYUPPPEEEUU";
 StringBuilder result = new StringBuilder();
 int count = 1;
@@ -143,11 +144,13 @@ Console.WriteLine($"Current String: {compressed  }");
 for(int i = 0; i < compressed.Length; i++)
 {
     if (compressed[i] == currentChar) { 
+        // Keeping track of how many times the same character appears
         count++; 
     } else
     {
         if(count > 2)
         {
+            // Appending the current character and also the x amount of times they appeared
             result.Append(currentChar);
             result.Append(count);
         } else
@@ -171,6 +174,23 @@ else
 Console.WriteLine($"Compressed string: {result.ToString()}");
 
 StringBuilder decompressed = new StringBuilder();
-currentChar = compressed[0];
+currentChar = result[0];
+int counter = 0;
+
+for(int i = 0; i < result.Length; i++)
+{
+    if (char.IsLetter(result[i]))
+    {
+        currentChar = result[i];
+        decompressed.Append(currentChar);
+    } else
+    {
+        int newCount = Int32.Parse(result[i].ToString());
+        for(int j = 0; j < counter - 1; j++)
+        {
+            decompressed.Append(currentChar);
+        }
+    }
+}
 
 Console.WriteLine($"Decompressed string: {decompressed.ToString()}");
