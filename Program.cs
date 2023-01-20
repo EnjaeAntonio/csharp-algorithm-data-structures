@@ -131,8 +131,11 @@ while(userMoney > 0)
     }
 }
 
+/*** THE OVERALL TIME COMPLEXITY OF MY CODE WOULD BE ON^2? ***/
+
 
 /******* Question 2: ********/
+Console.WriteLine();
 Console.WriteLine("!! QUESTION 2 ANSWERS !!");
 Console.WriteLine();
 string compressed = "RTTFTFFFFRRRR";
@@ -172,6 +175,8 @@ else
 
 Console.WriteLine($"Compressed string: {result.ToString()}");
 
+/*** TIME COMPLEXITY WOULD BE O(n). The string compressed represents n as the length ***/
+
 string decompressed = "T3GL2G3";
 StringBuilder decompressedResult = new StringBuilder();
 currentChar = decompressed[0];
@@ -195,3 +200,5 @@ for(int i = 0; i < decompressed.Length; i++)
 }
 
 Console.WriteLine($"Decompressed string: {decompressedResult.ToString()}");
+
+/*** TIME COMPLEXITY IS ON^2 ***/
