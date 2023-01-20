@@ -168,4 +168,17 @@ else
 }
 
 
+Console.WriteLine("Compressed string: ");
 Console.WriteLine(result.ToString());
+
+for (int i = 0; i < compressed.Length; i++)
+{
+    if (char.IsNumber(compressed[i]))
+    {
+        int newCount = int.Parse(compressed[i].ToString());
+        for (int j = 0; j < newCount; j++)
+        {
+            result.Append(compressed[i]);
+        }
+    }
+}
