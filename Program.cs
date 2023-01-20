@@ -13,6 +13,8 @@ Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
 // Item prices
 
 Dictionary<string, double> itemInv = new Dictionary<string, double> {
+    {"SANDWICH", 10 },
+    {"MONSTER", 5 },
     {"CHIPS", 3 },
     {"CHOCOLATE", 2 },
     {"WATER", 1 }
@@ -22,13 +24,14 @@ Dictionary<string, double> itemInv = new Dictionary<string, double> {
 // Ask user for money and initialize user's change
 Console.WriteLine("PLEASE ENTER FUNDS (Min: $1 - Max: 205): ");
 double userMoney = double.Parse(Console.ReadLine());
-while(userMoney < 1)
+double userChange = 0;
+
+while(userMoney < 1 || userMoney > 205)
 {
     Console.WriteLine("!! MIN-MAX = $1 & $205 : PLEASE ENTER A NEW AMOUNT !!");
 
     userMoney= double.Parse(Console.ReadLine());
 }   
-double userChange = 0;
 while(userMoney > 0)
 {
 
@@ -57,14 +60,6 @@ while(userMoney > 0)
     }
     else if (userItem.ToUpper() == "DONE")
     {
-        foreach(KeyValuePair<int, int> item in coinDenominations)
-        {
-            if(userChange / item.Key > item.Value)
-            {
-                Console.WriteLine("Sorry we dont have enough change to give back");
-                break;
-            }
-        }
         // Ending the output and also displaying how much change the user is getting back as minimal as possible
         userChange = userMoney;
         Dictionary<int, int> userChangeCoins = new Dictionary<int, int>();
@@ -136,11 +131,11 @@ while(userMoney > 0)
 
 /******* Question 2: ********/
 Console.WriteLine();
-string compressed = "RTFFFFYYUPPPEEEUU";
+string compressed = "RTTFTFFFFRRRR";
 StringBuilder result = new StringBuilder();
-int count = 1;
+int count = 0;
 char currentChar = compressed[0];
-Console.WriteLine($"Current String: {compressed  }");
+Console.WriteLine($"Current compressed string: {compressed  }");
 for(int i = 0; i < compressed.Length; i++)
 {
     if (compressed[i] == currentChar) { 
@@ -148,7 +143,7 @@ for(int i = 0; i < compressed.Length; i++)
         count++; 
     } else
     {
-        if(count > 2)
+        if(count > 1)
         {
             // Appending the current character and also the x amount of times they appeared
             result.Append(currentChar);
@@ -161,7 +156,7 @@ for(int i = 0; i < compressed.Length; i++)
     count = 1;
     }
 }
-if (count >= 2)
+if (count > 1)
 {
     result.Append(currentChar);
     result.Append(count);
@@ -173,24 +168,25 @@ else
 
 Console.WriteLine($"Compressed string: {result.ToString()}");
 
-StringBuilder decompressed = new StringBuilder();
-currentChar = result[0];
-int counter = 0;
-
-for(int i = 0; i < result.Length; i++)
+string decompressed = "T3GL2G3";
+StringBuilder decompressedResult = new StringBuilder();
+currentChar = decompressed[0];
+Console.WriteLine($"Current non-decompressed string: {decompressed}");
+for(int i = 0; i < decompressed.Length; i++)
 {
-    if (char.IsLetter(result[i]))
+    if (char.IsLetter(decompressed[i]))
     {
-        currentChar = result[i];
-        decompressed.Append(currentChar);
-    } else
+        currentChar = decompressed[i];
+        decompressedResult.Append(currentChar);
+    }
+    else
     {
-        int newCount = Int32.Parse(result[i].ToString());
-        for(int j = 0; j < counter - 1; j++)
+        int newCount = Int32.Parse(decompressed[i].ToString());
+        for(int j = 0; j < newCount - 1; j++)
         {
-            decompressed.Append(currentChar);
+            decompressedResult.Append(currentChar);
         }
     }
 }
 
-Console.WriteLine($"Decompressed string: {decompressed.ToString()}");
+Console.WriteLine($"Decompressed string: {decompressedResult.ToString()}");
