@@ -139,6 +139,7 @@ string compressed = "RTFFFFYYUPPPEEEUU";
 StringBuilder result = new StringBuilder();
 int count = 1;
 char currentChar = compressed[0];
+Console.WriteLine($"Current String: {compressed}");
 for(int i = 0; i < compressed.Length; i++)
 {
     if (compressed[i] == currentChar) { 
@@ -168,8 +169,7 @@ else
 }
 
 
-Console.WriteLine("Compressed string: ");
-Console.WriteLine(result.ToString());
+Console.WriteLine($"Compressed string: {result.ToString()}");
 
 for (int i = 0; i < compressed.Length; i++)
 {
@@ -178,7 +178,12 @@ for (int i = 0; i < compressed.Length; i++)
         int newCount = int.Parse(compressed[i].ToString());
         for (int j = 0; j < newCount; j++)
         {
-            result.Append(compressed[i]);
+            result.Append(currentChar);
         }
+    } else
+    {
+        currentChar = compressed[i];
+        result.Append(currentChar);
     }
 }
+Console.WriteLine($"Decompressed string: {result.ToString()}");
