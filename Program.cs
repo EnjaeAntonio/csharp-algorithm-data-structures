@@ -100,7 +100,7 @@ while(userMoney > 0)
         foreach(KeyValuePair<int, int> coin in userChangeCoins)
         {
             // Showing the user how much money and how many bills they are getting back
-            Console.WriteLine($"WITHDRAWING {coin.Value} ${coin.Key} bill(s)");
+            Console.WriteLine($"WITHDRAWING {coin.Value} ${coin.Key} bill(s)/coin(s)");
         }
         break;
     }
@@ -139,7 +139,7 @@ string compressed = "RTTFTFFFFRRRR";
 StringBuilder result = new StringBuilder();
 int count = 0;
 char currentChar = compressed[0];
-Console.WriteLine($"Current compressed string: {compressed  }");
+Console.WriteLine($"Current compressed string: {compressed}");
 for(int i = 0; i < compressed.Length; i++)
 {
     if (compressed[i] == currentChar) { 
