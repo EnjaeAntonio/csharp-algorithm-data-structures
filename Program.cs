@@ -1,4 +1,5 @@
 ﻿/********* Question1: **********/
+using System.Security;
 using System.Text;
 
 Dictionary<int, int> coinDenominations = new Dictionary<int, int> {
@@ -133,5 +134,20 @@ while(userMoney > 0)
 
 //Write a function to decompress a string and return the original one.
 
+string input = "RTFFFFYYUPPPEEEUU";
 StringBuilder result = new StringBuilder();
-int count = 0;
+int count = 1;
+char currentChar = input[0];
+for(int i = 0; i < input.Length; i++)
+{
+    if (input[i] == currentChar) { 
+        count++; 
+    } else
+    {
+        if(count > 2)
+        {
+            result.Append(currentChar);
+            result.Append(count);
+        } 
+    }
+}
