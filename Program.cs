@@ -1,4 +1,4 @@
-﻿/********* Question1: **********/
+﻿/********* Question 1 **********/
 using System.Text;
 
 
@@ -60,10 +60,12 @@ while(userMoney > 0)
     }
     else if (userItem.ToUpper() == "DONE")
     {
-        // Ending the output and also displaying how much change the user is getting back as minimal as possible
         userChange = userMoney;
         Dictionary<int, int> userChangeCoins = new Dictionary<int, int>();
+        // Creating a new coin list using coinDenominations
         List<KeyValuePair<int, int>> coinList = coinDenominations.ToList();
+
+        // Ending the output and also displaying how much change the user is getting back as minimal as possible
         for(int i = 0; i < coinList.Count; i++)
         {
             for (int j = i + 1; j < coinList.Count; j++)
@@ -97,6 +99,7 @@ while(userMoney > 0)
         Console.WriteLine("Vending...");
         foreach(KeyValuePair<int, int> coin in userChangeCoins)
         {
+            // Showing the user how much money and how many bills they are getting back
             Console.WriteLine($"WITHDRAWING {coin.Value} ${coin.Key} bill(s)");
         }
         break;
@@ -130,6 +133,7 @@ while(userMoney > 0)
 
 
 /******* Question 2: ********/
+Console.WriteLine("!! QUESTION 2 ANSWERS !!");
 Console.WriteLine();
 string compressed = "RTTFTFFFFRRRR";
 StringBuilder result = new StringBuilder();
@@ -172,6 +176,7 @@ string decompressed = "T3GL2G3";
 StringBuilder decompressedResult = new StringBuilder();
 currentChar = decompressed[0];
 Console.WriteLine($"Current non-decompressed string: {decompressed}");
+
 for(int i = 0; i < decompressed.Length; i++)
 {
     if (char.IsLetter(decompressed[i]))
